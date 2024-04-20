@@ -10,10 +10,12 @@ private:
     glm::mat4 perspective;
     float aspect;
     float fovy;
+    int camera_id;
+    bool active;
 public:
-    Camera(Transform transform, float fovy);
+    Camera(int camera_id, Transform transform, float fovy);
     
     void update(UpdateContext& ctx);
     void update_transform(const glm::mat4& parent);
-    void prerender(Shader& shader);
+    void prerender(Shader& shader, UpdateContext& ctx);
 };

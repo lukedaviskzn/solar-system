@@ -28,15 +28,15 @@ void Scene::update_transform(const glm::mat4& parent) {
     }
 }
 
-void Scene::prerender(Shader& shader) {
+void Scene::prerender(Shader& shader, UpdateContext& ctx) {
     for (auto &&child : children) {
-        child->prerender(shader);
+        child->prerender(shader, ctx);
     }
 }
 
-void Scene::render(Shader& shader) {
+void Scene::render(Shader& shader, UpdateContext& ctx) {
     for (auto &&child : children) {
-        child->render(shader);
+        child->render(shader, ctx);
     }
 }
 

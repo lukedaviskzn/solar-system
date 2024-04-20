@@ -1,7 +1,7 @@
 #include "Orbit.h"
 #include <iostream>
 
-Orbit::Orbit(float orbitRadius, float speed, std::vector<GameObject*> children) :
+Orbit::Orbit(double orbitRadius, double speed, std::vector<GameObject*> children) :
     orbitRadius(orbitRadius), speed(speed), transform({0.0, 0.0, 0.0}),
     time(0.0), children(children) {}
 
@@ -19,8 +19,8 @@ void Orbit::update(UpdateContext& ctx) {
 
 void Orbit::physics_update(UpdateContext& ctx) {
     time += ctx.dt;
-    float x = orbitRadius * std::cos(time * speed);
-    float z = -orbitRadius * std::sin(time * speed);
+    double x = orbitRadius * std::cos(time * speed);
+    double z = -orbitRadius * std::sin(time * speed);
     transform.position = {x, 0.0, z};
 
     for (auto &&child : children) {
@@ -37,14 +37,14 @@ void Orbit::update_transform(const glm::mat4& parent) {
     }
 }
 
-void Orbit::prerender(Shader& shader) {
+void Orbit::prerender(Shader& shader, UpdateContext& ctx) {
     for (auto &&child : children) {
-        child->prerender(shader);
+        child->prerender(shader, ctx);
     }
 }
 
-void Orbit::render(Shader& shader) {
+void Orbit::render(Shader& shader, UpdateContext& ctx) {
     for (auto &&child : children) {
-        child->render(shader);
+        child->render(shader, ctx);
     }
 }

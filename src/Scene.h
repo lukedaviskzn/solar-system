@@ -19,6 +19,6 @@ public:
     void update(UpdateContext& ctx);
     void physics_update(UpdateContext& ctx);
     void update_transform(const glm::mat4& parent);
-    void prerender(Shader& shader);
-    void render(Shader& shader);
+    void prerender(Shader& shader, UpdateContext& ctx);
+    void render(Shader& shader, UpdateContext& ctx);
 };

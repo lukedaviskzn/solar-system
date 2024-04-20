@@ -3,19 +3,21 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-Camera::Camera(Transform transform, float fovy) : transform(transform), perspective(glm::perspective(fovy, 1.0f, 0.01f, 2000.0f)), aspect(1.0), fovy(fovy) {}
+Camera::Camera(int camera_id, Transform transform, float fovy) : active(true), camera_id(camera_id), transform(transform), perspective(1.0), aspect(1.0), fovy(fovy) {}
 
 void Camera::update(UpdateContext& ctx) {
+    active = camera_id == ctx.active_camera;
+    
     if (ctx.aspect != aspect) {
         aspect = ctx.aspect;
-        perspective = glm::perspective(fovy, aspect, 0.01f, 2000.0f);
+        perspective = glm::perspective(fovy, aspect, 0.01f, 100000.0f);
     }
 
-    if (!ctx.grabbed) return;
+    if (!ctx.grabbed || !active) return;
 
-    float speed = ctx.dt * 0.1f;
+    double speed = ctx.dt * 0.1;
 
-    glm::vec3 dir = glm::vec3(0.0f);
+    glm::dvec3 dir(0.0);
     
     if (ctx.keys_pressed[SDLK_w]) {
         dir += glm::vec3(0.0f, 0.0f, -1.0f);
@@ -59,7 +61,11 @@ void Camera::update_transform(const glm::mat4& parent) {
     transform.computeGlobalMatrix(parent);
 }
 
-void Camera::prerender(Shader& shader) {
+void Camera::prerender(Shader& shader, UpdateContext& ctx) {
+    if (!active) return;
+    
     shader.setUniform("view", glm::inverse(transform.globalMatrix));
     shader.setUniform("perspective", perspective);
+
+    ctx.camera_pos = glm::dvec3(transform.globalMatrix * glm::dvec4(0.0, 0.0, 0.0, 1.0));
 }

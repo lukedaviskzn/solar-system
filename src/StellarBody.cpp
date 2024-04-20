@@ -24,12 +24,11 @@ void StellarBody::physics_update(UpdateContext& ctx) {
 }
 
 void StellarBody::update_transform(const glm::mat4& parent) {
-
     transform.computeMatrix();
     transform.computeGlobalMatrix(parent);
 }
 
-void StellarBody::render(Shader& shader) {
+void StellarBody::render(Shader& shader, UpdateContext& ctx) {
     shader.setUniform("model", transform.globalMatrix);
     shader.setUniform("has_night", has_night);
     shader.setUniform("lighting", lighting);

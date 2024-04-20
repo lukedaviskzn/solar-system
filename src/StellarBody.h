@@ -24,5 +24,5 @@ public:
     
     void physics_update(UpdateContext& ctx);
     void update_transform(const glm::mat4& parent);
-    void render(Shader& shader);
+    void render(Shader& shader, UpdateContext& ctx);
 };

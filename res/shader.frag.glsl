@@ -55,6 +55,24 @@ void main() {
       colour = base * brightness;
    } else if (lighting == 4) { // sun
       colour = texture(albedo, vec2(lat, long)) + vec4(0.75); // add emissive
+   } else if (lighting == 5) { // saturns rings
+      float ambient = 0.05;
+
+      float l = length(v_position);
+      float r_start = 0.47785;
+
+      // in gap between rings and planet
+      if (l < r_start) {
+         discard;
+      }
+
+      float brightness = smoothstep(0.0, 0.4, dot(v_normal, sun_dir) / 2.0 + 0.5) * (1.0 - ambient) + ambient;
+
+      float x = mix(0.0, 1.0, (l - r_start) / (1.0 - r_start));
+
+      vec4 base = texture(albedo, vec2(x, long));
+
+      colour = vec4(base.rgb * brightness, base.a);
    }
    
    FragColor = colour;
