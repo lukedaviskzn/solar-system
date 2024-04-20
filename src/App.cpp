@@ -366,7 +366,7 @@ int App::run() {
         new Orbit(0.0f, 0.0f, atmosphere),
     });
 
-    UpdateContext ctx = {.dt = 0.0f, .aspect = w*1.0f/h, .active_camera = 0};
+    UpdateContext ctx = {.dt = 0.0f, .aspect = w*1.0f/h, .active_camera = 3};
 
     int32_t mouse_dx = 0;
     int32_t mouse_dy = 0;
