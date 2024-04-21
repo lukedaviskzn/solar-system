@@ -100,9 +100,9 @@ int App::run() {
     float earth_size = 1.0 / 109.0;
     float earth_orbit_dist = 215.87;
     float earth_orbit_speed = 1.0/365.25;
-    float earth_rotate_speed = 1.0/24.0;
+    float earth_rotate_speed = 1.0; // 1 rotation per day
     float earth_axial_tilt = 0.4091;
-    float earth_cloud_dist = 1.008;
+    float earth_cloud_dist = 1.015;
     float earth_cloud_rotate_speed = earth_rotate_speed * 0.85; // slower, so moving west
     int earth_num_shells = 20;
 
@@ -289,81 +289,78 @@ int App::run() {
     );
     
     GameObject* root = new Scene({
-        // sun orbit (stationary)
-        new Orbit(0.0f, 0.0f, {
-            // sky
-            new Sky(sky_tex, inv_sphere_mesh, 1000.0f),
-            // sun
-            new StellarBody(sun_tex, 4, sphere_mesh, sun_size, sun_rotate_speed, sun_axial_tilt),
-            // sun camera
-            new Camera(0, Transform({0.0, 0.0, 10.0}), camera_fov),
-            // mercury orbit
-            new Orbit(mercury_orbit_dist, mercury_orbit_speed, {
-                // mercury camera
-                new Camera(1, Transform({0.0, 0.0, 0.1}), camera_fov),
-                // mercury
-                new StellarBody(mercury_tex, 1, sphere_mesh, mercury_size, mercury_rotate_speed, mercury_axial_tilt),
+        // sky
+        new Sky(sky_tex, inv_sphere_mesh, 1000.0f),
+        // sun
+        new StellarBody(sun_tex, 4, sphere_mesh, sun_size, sun_rotate_speed, sun_axial_tilt),
+        // sun camera
+        new Camera(0, Transform({0.0, 0.0, 10.0}), camera_fov),
+        // mercury orbit
+        new Orbit(mercury_orbit_dist, mercury_orbit_speed, {
+            // mercury camera
+            new Camera(1, Transform({0.0, 0.0, 0.1}), camera_fov),
+            // mercury
+            new StellarBody(mercury_tex, 1, sphere_mesh, mercury_size, mercury_rotate_speed, mercury_axial_tilt),
+        }),
+        // venus orbit
+        new Orbit(venus_orbit_dist, venus_orbit_speed, {
+            // venus camera
+            new Camera(2, Transform({0.0, 0.0, 0.1}), camera_fov),
+            // venus
+            new StellarBody(venus_tex, 1, sphere_mesh, venus_size, venus_rotate_speed, venus_axial_tilt),
+        }),
+        // earth orbit
+        new Orbit(earth_orbit_dist, earth_orbit_speed, {
+            // earth camera
+            new Camera(3, Transform({0.0, 0.0, 0.1}), camera_fov),
+            // earth
+            new StellarBody(earth_tex, earth_night_tex, sphere_mesh, earth_size, earth_rotate_speed, earth_axial_tilt),
+            // moon orbit
+            new Orbit(moon_orbit_dist, moon_orbit_speed, {
+                // moon camera
+                new Camera(4, Transform({0.0, 0.0, 0.05}), camera_fov),
+                // moon
+                new StellarBody(moon_tex, 1, sphere_mesh, moon_size, moon_rotate_speed, moon_axial_tilt),
             }),
-            // venus orbit
-            new Orbit(venus_orbit_dist, venus_orbit_speed, {
-                // venus camera
-                new Camera(2, Transform({0.0, 0.0, 0.1}), camera_fov),
-                // venus
-                new StellarBody(venus_tex, 1, sphere_mesh, venus_size, venus_rotate_speed, venus_axial_tilt),
-            }),
-            // earth orbit
-            new Orbit(earth_orbit_dist, earth_orbit_speed, {
-                // earth camera
-                new Camera(3, Transform({0.0, 0.0, 0.1}), camera_fov),
-                // earth
-                new StellarBody(earth_tex, earth_night_tex, sphere_mesh, earth_size, earth_rotate_speed, earth_axial_tilt),
-                // moon orbit
-                new Orbit(moon_orbit_dist, moon_orbit_speed, {
-                    // moon camera
-                    new Camera(4, Transform({0.0, 0.0, 0.05}), camera_fov),
-                    // moon
-                    new StellarBody(moon_tex, 1, sphere_mesh, moon_size, moon_rotate_speed, moon_axial_tilt),
-                }),
-            }),
-            // mars orbit
-            new Orbit(mars_orbit_dist, mars_orbit_speed, {
-                // mercury camera
-                new Camera(5, Transform({0.0, 0.0, 0.1}), camera_fov),
-                // mercury
-                new StellarBody(mars_tex, 1, sphere_mesh, mars_size, mars_rotate_speed, mars_axial_tilt),
-            }),
-            // jupiter orbit
-            new Orbit(jupiter_orbit_dist, jupiter_orbit_speed, {
-                // jupiter camera
-                new Camera(6, Transform({0.0, 0.0, 1.0}), camera_fov),
-                // jupiter
-                new StellarBody(jupiter_tex, 1, sphere_mesh, jupiter_size, jupiter_rotate_speed, jupiter_axial_tilt),
-            }),
-            // saturn orbit
-            new Orbit(saturn_orbit_dist, saturn_orbit_speed, {
-                // saturn camera
-                new Camera(7, Transform({0.0, 0.0, 1.0}), camera_fov),
-                // saturn
-                new StellarBody(saturn_tex, 1, sphere_mesh, saturn_size, saturn_rotate_speed, saturn_axial_tilt),
-            }),
-            // uranus orbit
-            new Orbit(uranus_orbit_dist, uranus_orbit_speed, {
-                // uranus camera
-                new Camera(8, Transform({0.0, 0.0, 0.8}), camera_fov),
-                // uranus
-                new StellarBody(uranus_tex, 1, sphere_mesh, uranus_size, uranus_rotate_speed, uranus_axial_tilt),
-            }),
-            // neptune orbit
-            new Orbit(neptune_orbit_dist, neptune_orbit_speed, {
-                // neptune camera
-                new Camera(9, Transform({0.0, 0.0, 0.8}), camera_fov),
-                // neptune
-                new StellarBody(neptune_tex, 1, sphere_mesh, neptune_size, neptune_rotate_speed, neptune_axial_tilt),
-            }),
+        }),
+        // mars orbit
+        new Orbit(mars_orbit_dist, mars_orbit_speed, {
+            // mercury camera
+            new Camera(5, Transform({0.0, 0.0, 0.1}), camera_fov),
+            // mercury
+            new StellarBody(mars_tex, 1, sphere_mesh, mars_size, mars_rotate_speed, mars_axial_tilt),
+        }),
+        // jupiter orbit
+        new Orbit(jupiter_orbit_dist, jupiter_orbit_speed, {
+            // jupiter camera
+            new Camera(6, Transform({0.0, 0.0, 1.0}), camera_fov),
+            // jupiter
+            new StellarBody(jupiter_tex, 1, sphere_mesh, jupiter_size, jupiter_rotate_speed, jupiter_axial_tilt),
+        }),
+        // saturn orbit
+        new Orbit(saturn_orbit_dist, saturn_orbit_speed, {
+            // saturn camera
+            new Camera(7, Transform({0.0, 0.0, 1.0}), camera_fov),
+            // saturn
+            new StellarBody(saturn_tex, 1, sphere_mesh, saturn_size, saturn_rotate_speed, saturn_axial_tilt),
+        }),
+        // uranus orbit
+        new Orbit(uranus_orbit_dist, uranus_orbit_speed, {
+            // uranus camera
+            new Camera(8, Transform({0.0, 0.0, 0.8}), camera_fov),
+            // uranus
+            new StellarBody(uranus_tex, 1, sphere_mesh, uranus_size, uranus_rotate_speed, uranus_axial_tilt),
+        }),
+        // neptune orbit
+        new Orbit(neptune_orbit_dist, neptune_orbit_speed, {
+            // neptune camera
+            new Camera(9, Transform({0.0, 0.0, 0.8}), camera_fov),
+            // neptune
+            new StellarBody(neptune_tex, 1, sphere_mesh, neptune_size, neptune_rotate_speed, neptune_axial_tilt),
         }),
         // draw transparent objects last
         // parallel orbits for transparencies
-        new Orbit(0.0f, 0.0f, atmosphere),
+        new Scene(atmosphere),
     });
 
     UpdateContext ctx = {.dt = 0.0f, .aspect = w*1.0f/h, .active_camera = 3};
@@ -374,7 +371,7 @@ int App::run() {
     int32_t physics_mouse_dy = 0;
     
     bool paused = false;
-    float speedup = 1.0f;
+    float speedup = 0.5f;
 
     size_t frame_count = 0;
     size_t average_dt_count = 100;

@@ -1,6 +1,6 @@
 # Solar System Simulation (OpenGL/C++)
 
-Features all 8 planets, and the sun and moon. All bodies are of the correct radius, rotational period, axial tilt, orbital radius (except for the moon, which is 5x closer than in reality), and orbital period. Initial time scale is 1 second to 1 day.
+Features all 8 planets, and the sun and moon. All bodies are of the correct radius, rotational period, axial tilt, orbital radius (except for the moon, which is 5x closer than in reality for aesthetics), and orbital period. Initial time scale is 1 second to 12 hours.
 
 ### Controls
 * q - quit
@@ -12,6 +12,11 @@ Features all 8 planets, and the sun and moon. All bodies are of the correct radi
 * space, left control - move camera vertically
 * left click - capture mouse, move camera
 * escape - free mouse, stop moving camera
+
+### Compilation (Linux)
+(requires SDL2 and GLEW)
+
+`make run`
 
 ### Pictures
 ![venus](https://github.com/lukedaviskzn/solar-system/blob/master/screenshots/3_body.jpg?raw=true)
@@ -27,3 +32,7 @@ Features all 8 planets, and the sun and moon. All bodies are of the correct radi
 ![venus](https://github.com/lukedaviskzn/solar-system/blob/master/screenshots/lunar_eclipse.jpg?raw=true)
 ![venus](https://github.com/lukedaviskzn/solar-system/blob/master/screenshots/3_body_2.jpg?raw=true)
 ![venus](https://github.com/lukedaviskzn/solar-system/blob/master/screenshots/3_body_3.jpg?raw=true)
+
+### References
+Planet and sky textures - https://www.solarsystemscope.com/textures/
+
