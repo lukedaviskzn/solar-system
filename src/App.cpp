@@ -312,7 +312,11 @@ int App::run() {
         // earth orbit
         new Orbit(earth_orbit_dist, earth_orbit_speed, {
             // earth camera
-            new Camera(3, Transform({0.0, 0.0, 0.1}), camera_fov),
+            new Camera(3, Transform(
+                glm::dvec3(0.2, 0.01, -0.02),
+                glm::angleAxis(M_PI / 2.0, glm::dvec3(0.0, 1.0, 0.0)),
+                glm::dvec3(1.0)
+            ), camera_fov),
             // earth
             new StellarBody(earth_tex, earth_night_tex, sphere_mesh, earth_size, earth_rotate_speed, earth_axial_tilt),
             // moon orbit
